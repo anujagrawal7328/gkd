@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="store.gharkidukaan.ghar_ki_dukaan.MainActivity"
+  >
+
+    <WebView
+        android:id="@+id/webshow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+    </WebView>
+    <ImageView
+        android:id="@+id/SplashScreenImage"
+        android:layout_width="259dp"
+        android:layout_height="191dp"
+        android:gravity="center"
+        android:src="@drawable/s1"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+  />
+<ImageView
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:layout_below="@id/SplashScreenImage"
+    android:layout_marginTop="20dp"
+    android:id="@+id/imageView"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:visibility="gone"/>
+
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:visibility="gone"
+           android:id="@+id/layout_error"
+           android:gravity="center"
+           >
+           <ImageView
+               android:layout_width="400dp"
+               android:layout_height="400dp"
+               android:layout_centerHorizontal="true"
+               android:layout_centerVertical="true"
+                android:id="@+id/error"
+               android:src="@drawable/networkerror" />
+           <TextView
+               android:id="@+id/oops"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10dp"
+               android:layout_below="@+id/error"
+               android:gravity="center"
+               android:text="Ooops!"
+               android:textColor="#000"
+               android:textSize="40sp" />
+
+
+           <TextView
+               android:id="@+id/nettext"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/oops"
+               android:gravity="center"
+               android:text="No Internet Connection found"
+               android:textColor="#000"
+               android:textSize="15sp" />
+
+           <TextView
+               android:id="@+id/direction"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_below="@id/nettext"
+               android:layout_marginTop="1dp"
+               android:layout_marginBottom="10dp"
+               android:gravity="center"
+               android:text="ON YOUR DATA AND HIT RESTART"
+               android:textColor="#000"
+               android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/restartapp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/direction"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="#ff7519"
+        android:text="Restart"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+       </RelativeLayout>
+</RelativeLayout>

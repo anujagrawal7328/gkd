@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "1023455013829",
+    "firebase_url": "https://gkd-webapp.firebaseio.com",
+    "project_id": "gkd-webapp",
+    "storage_bucket": "gkd-webapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023455013829:android:1c699aa53da97975a579ac",
+        "android_client_info": {
+          "package_name": "store.gharkidukaan.ghar_ki_dukaan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023455013829-4kctho6doe6vhsgb361nbv8j2ovq6bcu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "store.gharkidukaan.ghar_ki_dukaan",
+            "certificate_hash": "7c424fc26f639c4548182104418966848dd6f379"
+          }
+        },
+        {
+          "client_id": "1023455013829-m2v1i2etu83fq0il2m50ismvf6oefmbu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "store.gharkidukaan.ghar_ki_dukaan",
+            "certificate_hash": "688245010ab96f6265c31db4a3cdc6f5e9edf0e9"
+          }
+        },
+        {
+          "client_id": "1023455013829-gv2g759nit11203j5kd7o3t3el467lg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACffETEJI87T96sEFTGYAK-D9y14Kv6b0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023455013829-gv2g759nit11203j5kd7o3t3el467lg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
