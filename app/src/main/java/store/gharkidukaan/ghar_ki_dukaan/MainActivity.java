@@ -85,13 +85,14 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
 
         MyReceiver = new ConnectivityReceiver();
         broadcastIntent();
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         webshow =findViewById(R.id.webshow);
         restartapp = findViewById(R.id.restartapp);
         layout_error = findViewById(R.id.layout_error);
-         imageView = (ImageView) findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.imageView);
         splashImage = (ImageView) findViewById(R.id.SplashScreenImage);
         Glide.with(this).load(R.drawable.loader).into(imageView);
         splashImage.setVisibility(View.VISIBLE);
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
             DocumentReference docRef = db.collection("urls").document("webUrl");
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -151,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                                checkForAppUpdate();
                                 GetPaymentWebView( appLinkData.toString());
                                 layout_error.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
                                 webshow.setVisibility(View.VISIBLE );
                                 splashImage.setVisibility(View.GONE);
                                 imageView.setVisibility(View.GONE);
@@ -158,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                           checkForAppUpdate();
                                 GetPaymentWebView(url);
                                 layout_error.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
                                 webshow.setVisibility(View.VISIBLE );
                                 splashImage.setVisibility(View.GONE);
                                 imageView.setVisibility(View.GONE);
@@ -178,9 +186,15 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         }
     };
     BroadcastReceiver Receiver = new BroadcastReceiver() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onReceive(Context context, Intent intent) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
             webshow.setVisibility(View.GONE );
+            splashImage.setVisibility(View.GONE);
+            imageView.setVisibility(View.GONE);
             layout_error.setVisibility(View.VISIBLE);
         }
     };
@@ -193,9 +207,9 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(MyReceiver);
-        unregisterReceiver(broadcastReceiver);
-        unregisterReceiver(Receiver);
+//        unregisterReceiver(MyReceiver);
+//        unregisterReceiver(broadcastReceiver);
+//        unregisterReceiver(Receiver);
     }
     @SuppressLint("SetJavaScriptEnabled")
     private void GetPaymentWebView(String url) {
@@ -296,6 +310,14 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         unregisterInstallStateUpdListener();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+//        registerReceiver(broadcastReceiver, new IntentFilter("INTERNET_Received"));
+//        registerReceiver(Receiver, new IntentFilter("INTERNET_Gone"));
+    }
+
     /**
      * Checks that the update is not stalled during 'onResume()'.
      * However, you should execute this check at all app entry points.
@@ -310,16 +332,16 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
     public void onSuccess(AppUpdateInfo result) {
         if (result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
             // Request the update.
-            if (result.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-
-                // Before starting an update, register a listener for updates.
-                appUpdateManager.registerListener(installStateUpdatedListener);
-                // Start an update.
-                startAppUpdateFlexible(result);
-            } else if (result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+//            if (result.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+//
+//                // Before starting an update, register a listener for updates.
+//                appUpdateManager.registerListener(installStateUpdatedListener);
+//                // Start an update.
+//                startAppUpdateFlexible(result);
+//            } else if (result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                 // Start an update.
                 startAppUpdateImmediate(result);
-            }
+         //   }
         }
     }
 

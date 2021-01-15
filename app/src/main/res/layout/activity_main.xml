@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context="store.gharkidukaan.ghar_ki_dukaan.MainActivity"
   >
 
@@ -15,24 +16,27 @@
     </WebView>
     <ImageView
         android:id="@+id/SplashScreenImage"
-        android:layout_width="259dp"
-        android:layout_height="191dp"
-        android:gravity="center"
+        android:layout_width="309dp"
+        android:layout_height="241dp"
         android:src="@drawable/s1"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
   />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        >
 <ImageView
     android:layout_width="200dp"
     android:layout_height="200dp"
-    android:layout_below="@id/SplashScreenImage"
     android:layout_marginTop="20dp"
     android:id="@+id/imageView"
-    android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
     android:visibility="gone"/>
-
+    </RelativeLayout>
 
        <RelativeLayout
            android:layout_width="match_parent"
@@ -42,8 +46,8 @@
            android:gravity="center"
            >
            <ImageView
-               android:layout_width="400dp"
-               android:layout_height="400dp"
+               android:layout_width="350dp"
+               android:layout_height="350dp"
                android:layout_centerHorizontal="true"
                android:layout_centerVertical="true"
                 android:id="@+id/error"
@@ -76,23 +80,26 @@
                android:layout_height="wrap_content"
                android:layout_below="@id/nettext"
                android:layout_marginTop="1dp"
-               android:layout_marginBottom="10dp"
                android:gravity="center"
                android:text="ON YOUR DATA AND HIT RESTART"
                android:textColor="#000"
                android:textSize="15sp" />
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true">
     <Button
         android:id="@+id/restartapp"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_height="50dp"
-        android:layout_below="@id/direction"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:background="#ff7519"
         android:text="Restart"
         android:textColor="#fff"
         android:textSize="20sp" />
-
+</RelativeLayout>
        </RelativeLayout>
 </RelativeLayout>

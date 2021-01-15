@@ -42,7 +42,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
 
 
-                Intent i = new Intent(SplashScreen.this, welcome.class);
+                Intent i = new Intent(SplashScreen.this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(i, 0);
                 overridePendingTransition(0,0);
