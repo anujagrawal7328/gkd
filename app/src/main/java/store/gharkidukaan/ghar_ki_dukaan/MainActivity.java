@@ -157,19 +157,12 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                                checkForAppUpdate();
                                 GetPaymentWebView( appLinkData.toString());
                                 layout_error.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
-                                webshow.setVisibility(View.VISIBLE );
-                                /*splashImage.setVisibility(View.GONE);
-                                imageView.setVisibility(View.GONE);*/
+                               webshow.setVisibility(View.VISIBLE );
+
                             }else{
                           checkForAppUpdate();
                                 GetPaymentWebView(url);
                                 layout_error.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
                                 webshow.setVisibility(View.VISIBLE );
 
                             }
@@ -361,6 +354,10 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
             // TODO Auto-generated method stub
             splashImage.setVisibility(View.GONE);
             imageView.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
+
             super.onPageStarted(view, url, favicon);
         }
 
