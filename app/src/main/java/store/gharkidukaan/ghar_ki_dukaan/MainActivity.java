@@ -36,6 +36,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 
@@ -62,8 +63,9 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
 
     WebView webshow;
     private BroadcastReceiver MyReceiver = null;
-    Dialog dialog;
+
     Button restartapp;
+
     RelativeLayout layout_error;
     ImageView imageView,splashImage;
     private static final int REQ_CODE_VERSION_UPDATE = 530;
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         broadcastIntent();
 
         webshow =findViewById(R.id.webshow);
+
+
         restartapp = findViewById(R.id.restartapp);
         layout_error = findViewById(R.id.layout_error);
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -157,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                                 getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
                                 webshow.setVisibility(View.VISIBLE );
-                                splashImage.setVisibility(View.GONE);
-                                imageView.setVisibility(View.GONE);
+                                /*splashImage.setVisibility(View.GONE);
+                                imageView.setVisibility(View.GONE);*/
                             }else{
                           checkForAppUpdate();
                                 GetPaymentWebView(url);
@@ -167,8 +171,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                                 getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
                                 webshow.setVisibility(View.VISIBLE );
-                                splashImage.setVisibility(View.GONE);
-                                imageView.setVisibility(View.GONE);
+
                             }
                             Log.d("value", document.getString("value")); //Print the name
                         } else {
@@ -219,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         webshow.getSettings().setAppCacheEnabled(true);
         webshow.getSettings().setDatabaseEnabled(true);
         webshow.getSettings().setDomStorageEnabled(true);
-       // webshow.setWebChromeClient(new WebChromeClient());
+     //  webshow.setWebChromeClient(new WebChromeClient());
         webshow.setWebViewClient(new myWebClient());
         webshow.getSettings().setLoadsImagesAutomatically(true);
         webshow.getSettings().setJavaScriptEnabled(true);
@@ -350,35 +353,46 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
  * Needed only for FLEXIBLE update
  */
 
-
-}
-
-
-
-
-
-
-class myWebClient extends WebViewClient
-{
-    @Override
-    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        // TODO Auto-generated method stub
-        super.onPageStarted(view, url, favicon);
-    }
-
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        // TODO Auto-generated method stub
-        if(url.startsWith("https://gharkidukaan.store/")||url.startsWith("https://m.gharkidukaan.store/")) {
-
-            view.loadUrl(url);
-
-        }else {
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            view.getContext().startActivity(i);
+   private class myWebClient extends WebViewClient
+    {
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO Auto-generated method stub
+            splashImage.setVisibility(View.GONE);
+            imageView.setVisibility(View.GONE);
+            super.onPageStarted(view, url, favicon);
         }
 
-        return true;
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            view.loadUrl("javascript:(function() { " +
+                    "document.getElementsByTagName('footer')[0].style.display=\"none\"; " +
+                    "})()");
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            if(url.startsWith("https://gharkidukaan.store/")||url.startsWith("https://m.gharkidukaan.store/")) {
+
+                view.loadUrl(url);
+
+            }else {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                view.getContext().startActivity(i);
+            }
+
+            return true;
+        }
     }
+
 }
+
+
+
+
+
+
 
