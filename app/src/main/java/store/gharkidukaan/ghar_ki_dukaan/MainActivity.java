@@ -27,10 +27,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -59,14 +63,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity implements OnSuccessListener<AppUpdateInfo> {
 
     WebView webshow;
     private BroadcastReceiver MyReceiver = null;
-
     Button restartapp;
-
-    RelativeLayout layout_error;
+    RelativeLayout layout_error,main_layout;
     ImageView imageView,splashImage;
     private static final int REQ_CODE_VERSION_UPDATE = 530;
     private AppUpdateManager appUpdateManager;
@@ -101,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
 
         webshow =findViewById(R.id.webshow);
 
-
+        main_layout = findViewById(R.id.layoutMain);
         restartapp = findViewById(R.id.restartapp);
         layout_error = findViewById(R.id.layout_error);
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -215,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         webshow.getSettings().setAppCacheEnabled(true);
         webshow.getSettings().setDatabaseEnabled(true);
         webshow.getSettings().setDomStorageEnabled(true);
-     //  webshow.setWebChromeClient(new WebChromeClient());
+       webshow.setWebChromeClient(new myWebChromeClient());
         webshow.setWebViewClient(new myWebClient());
         webshow.getSettings().setLoadsImagesAutomatically(true);
         webshow.getSettings().setJavaScriptEnabled(true);
@@ -345,7 +350,38 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
 /**
  * Needed only for FLEXIBLE update
  */
+private class myWebChromeClient extends WebChromeClient {
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+       MainActivity.this.setValue(newProgress);
+        super.onProgressChanged(view, newProgress);
+    }
+}
 
+    public void setValue(int progress) {
+    final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(progress<10){
+                    Snackbar snackbar = Snackbar
+                            .make(main_layout, "Internet is slow. please Wait!", Snackbar.LENGTH_LONG)
+                            .setAction("", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+//                                Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Message is restored!", Snackbar.LENGTH_SHORT);
+//                                snackbar1.show();
+                                }
+                            });
+
+                    snackbar.show();
+                }
+            }
+        }, 2000);
+
+
+
+    }
    private class myWebClient extends WebViewClient
     {
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -357,7 +393,6 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.purple_700));
-
             super.onPageStarted(view, url, favicon);
         }
 
@@ -373,10 +408,10 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // TODO Auto-generated method stub
             if(url.startsWith("https://gharkidukaan.store/")||url.startsWith("https://m.gharkidukaan.store/")) {
-
                 view.loadUrl(url);
-
+                Log.d("url",url);
             }else {
+                Log.d("url",url);
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 view.getContext().startActivity(i);
             }
