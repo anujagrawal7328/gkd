@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
     ProgressBar clciked_url;
     View transparent_layer;
     CookieManager cookieManager;
+    CookieSyncManager cookieSyncManager;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -281,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
             webshow.getSettings().setDatabaseEnabled(true);
             webshow.getSettings().setDomStorageEnabled(true);
             webshow.getSettings().getCacheMode();
+            cookieManager = CookieManager.getInstance();
             webshow.setWebViewClient(new myWebClient());
             webshow.getSettings().setLoadsImagesAutomatically(true);
             webshow.getSettings().setJavaScriptEnabled(true);
@@ -411,6 +414,22 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
 
 
 private class myWebClient extends WebViewClient {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onLoadResource(WebView view, String url) {
+        transparent_layer.setVisibility(View.GONE);
+        clciked_url.setVisibility(View.GONE);
+        cookieManager.setAcceptThirdPartyCookies(webshow,true);
+        cookieSyncManager.getInstance().sync();
+        Log.d(TAG, "onPageFinished: "+cookies);
+        super.onLoadResource(view, url);
+    }
+
+    @Override
+    public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+
+        return super.onRenderProcessGone(view, detail);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -418,15 +437,12 @@ private class myWebClient extends WebViewClient {
                 // TODO Auto-generated method stub
                 splashImage.setVisibility(View.GONE);
                 imageView.setVisibility(View.GONE);
-                transparent_layer.setVisibility(View.GONE);
-                clciked_url.setVisibility(View.GONE);
                 webshow.setVisibility(View.VISIBLE);
                 layout_error.setVisibility(View.GONE);
-                cookieManager = CookieManager.getInstance();
                 cookieManager.setAcceptCookie(true);
+                cookieSyncManager=CookieSyncManager.createInstance(getBaseContext());
                 cookies=cookieManager.getInstance().getCookie(url);
-                CookieSyncManager.createInstance(getBaseContext());
-                CookieSyncManager.getInstance().startSync();
+                cookieSyncManager.getInstance().startSync();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_700));
@@ -436,14 +452,15 @@ private class myWebClient extends WebViewClient {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onPageFinished(WebView view, String url) {
+
                 view.loadUrl("javascript:(function() { " +
                         "document.getElementsByTagName('footer')[0].style.display=\"none\"; " +
                         "})()");
-                Log.d(TAG, "onPageFinished: "+cookies);
-                CookieSyncManager.getInstance().sync();
+
                 super.onPageFinished(view, url);
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub
