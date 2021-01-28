@@ -15,15 +15,33 @@
         android:layout_height="match_parent"
         android:visibility="gone">
     </WebView>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_white"
+        android:id="@+id/transparent_layer"
+        android:visibility="gone"/>
+    <ProgressBar
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/clicked_url"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/purple_200"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
     <ImageView
         android:id="@+id/SplashScreenImage"
         android:layout_width="309dp"
         android:layout_height="241dp"
-        android:src="@drawable/s1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:visibility="gone"
-  />
+        />
+</FrameLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,14 +98,13 @@
            android:layout_height="match_parent"
            android:visibility="gone"
            android:id="@+id/layout_error"
-           android:gravity="center"
            >
            <ImageView
                android:layout_width="350dp"
                android:layout_height="350dp"
+               android:layout_marginTop="40dp"
+               android:id="@+id/error"
                android:layout_centerHorizontal="true"
-               android:layout_centerVertical="true"
-                android:id="@+id/error"
                android:src="@drawable/networkerror" />
            <TextView
                android:id="@+id/oops"
@@ -123,23 +140,21 @@
                android:textSize="15sp" />
 <RelativeLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true">
+    android:layout_height="match_parent"
+    android:layout_below="@id/direction">
     <Button
         android:id="@+id/restartapp"
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
         android:background="#ff7519"
         android:text="Restart"
         android:textColor="#fff"
         android:textSize="20sp" />
 </RelativeLayout>
-
-
        </RelativeLayout>
 
 

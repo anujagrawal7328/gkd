@@ -10,12 +10,12 @@
 
 
     <ImageView
-        android:id="@+id/SplashScreenImage"
+        android:id="@+id/SplashScreen"
         android:layout_width="309dp"
         android:layout_height="241dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/s1"
+
    />
 <RelativeLayout
     android:layout_width="wrap_content"

@@ -19,4 +19,10 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="Cart_long_label">Cart</string>
+    <string name="Cart_short_label">Cart</string>
+    <string name="Cart_disabled_message">Cart</string>
+    <string name="Orders_long_label">Orders</string>
+    <string name="Orders_short_label">Orders</string>
+    <string name="Orders_disabled_message">Orders</string>
 </resources>

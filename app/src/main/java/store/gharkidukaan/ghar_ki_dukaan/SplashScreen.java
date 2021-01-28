@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import store.gharkidukaan.ghar_ki_dukaan.R;
 
 public class SplashScreen extends AppCompatActivity {
-
+     ImageView splashImage;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,11 @@ public class SplashScreen extends AppCompatActivity {
 
 // finally change the color
         getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
+        splashImage=findViewById(R.id.SplashScreen);
+        Glide.with(getApplicationContext()).load(R.drawable.s1).into(splashImage);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-
                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityForResult(i, 0);

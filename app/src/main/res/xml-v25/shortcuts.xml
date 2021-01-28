@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_orders"
+        android:shortcutDisabledMessage="@string/Orders_disabled_message"
+        android:shortcutId="Orders"
+        android:shortcutLongLabel="@string/Orders_long_label"
+        android:shortcutShortLabel="@string/Orders_short_label">
+        <!-- Each one of these intents needs an android:action, even if you don't
+             do anything with it. Otherwise you're in for a crash! -->
+        <intent
+            android:action="android.intent.action.LAUNCH_WITH_CONFIG"
+            android:targetClass="store.gharkidukaan.ghar_ki_dukaan.MainActivity"
+            android:targetPackage="store.gharkidukaan.ghar_ki_dukaan">
+        <extra android:name="action" android:value="https://gharkidukaan.store/my-account/orders/" />
+        </intent>
+
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_cart"
+        android:shortcutDisabledMessage="@string/Cart_disabled_message"
+        android:shortcutId="Cart"
+        android:shortcutLongLabel="@string/Cart_long_label"
+        android:shortcutShortLabel="@string/Cart_short_label">
+        <!-- Each one of these intents needs an android:action, even if you don't
+             do anything with it. Otherwise you're in for a crash! -->
+        <intent
+            android:action="android.intent.action.LAUNCH_WITH_CONFIG"
+            android:targetClass="store.gharkidukaan.ghar_ki_dukaan.MainActivity"
+            android:targetPackage="store.gharkidukaan.ghar_ki_dukaan">
+            <extra android:name="action" android:value="https://gharkidukaan.store/cart/" />
+        </intent>
+
+    </shortcut>
+
+</shortcuts>

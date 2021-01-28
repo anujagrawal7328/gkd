@@ -2,14 +2,17 @@ package store.gharkidukaan.ghar_ki_dukaan;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,9 +28,12 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -38,6 +44,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +71,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.URL;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements OnSuccessListener<AppUpdateInfo> {
 
@@ -76,10 +86,13 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
     private static final int REQ_CODE_VERSION_UPDATE = 530;
     private AppUpdateManager appUpdateManager;
     private InstallStateUpdatedListener installStateUpdatedListener;
-    String url,notification_url;
+    String url,notification_url,cookies;
     TextView close_msg;
     AsyncTask runningTask;
     Bundle extras;
+    ProgressBar clciked_url;
+    View transparent_layer;
+    CookieManager cookieManager;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -117,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         splashImage = (ImageView) findViewById(R.id.SplashScreenImage);
         layout_msg = (LinearLayout) findViewById(R.id.layout_msg);
         close_msg = (TextView) findViewById(R.id.close_msg);
+        clciked_url=(ProgressBar)findViewById(R.id.clicked_url);
+        transparent_layer=(View)findViewById(R.id.transparent_layer);
+        Glide.with(this).load(R.drawable.s1).into(splashImage);
         Glide.with(this).load(R.drawable.loader).into(imageView);
         splashImage.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.VISIBLE);
@@ -127,8 +143,6 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         } else {
             webshow.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-
-
         restartapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,9 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
         });
 
     }
-
-
-        class isInternetAvailable extends AsyncTask<Object, Void, Boolean> {
+    class isInternetAvailable extends AsyncTask<Object, Void, Boolean> {
 
             private Exception exception;
 
@@ -218,8 +230,6 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                                 else {
                                     checkForAppUpdate();
                                     GetPaymentWebView("https://gharkidukaan.store");
-
-
                                 }
                                 Log.d("value", document.getString("value")); //Print the name
                             } else {
@@ -261,21 +271,21 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
 //        unregisterReceiver(broadcastReceiver);
 //        unregisterReceiver(Receiver);
         }
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @SuppressLint("SetJavaScriptEnabled")
         private void GetPaymentWebView (String url){
             webshow.clearFormData();
             webshow.clearHistory();
-            webshow.clearCache(true);
+            webshow.clearCache(false);
             webshow.getSettings().setAppCacheEnabled(true);
             webshow.getSettings().setDatabaseEnabled(true);
             webshow.getSettings().setDomStorageEnabled(true);
-            // webshow.setWebChromeClient(new MyWebChromeClient());
+            webshow.getSettings().getCacheMode();
             webshow.setWebViewClient(new myWebClient());
             webshow.getSettings().setLoadsImagesAutomatically(true);
             webshow.getSettings().setJavaScriptEnabled(true);
             webshow.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             webshow.loadUrl(url);
-
 
         }
 
@@ -356,7 +366,6 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
             snackbar.setActionTextColor(
                     getResources().getColor(R.color.purple_200));
             snackbar.show();
-
             unregisterInstallStateUpdListener();
         }
 
@@ -401,19 +410,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
  */
 
 
-        private class myWebClient extends WebViewClient {
-
-    @Override
-    public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-        super.onReceivedHttpError(view, request, errorResponse);
-    //    Toast.makeText(getApplicationContext(),"Connection Error",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-        super.onReceivedSslError(view, handler, error);
-   //     Toast.makeText(getApplicationContext(),"Connection Error",Toast.LENGTH_LONG).show();
-    }
+private class myWebClient extends WebViewClient {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -421,39 +418,53 @@ public class MainActivity extends AppCompatActivity implements OnSuccessListener
                 // TODO Auto-generated method stub
                 splashImage.setVisibility(View.GONE);
                 imageView.setVisibility(View.GONE);
+                transparent_layer.setVisibility(View.GONE);
+                clciked_url.setVisibility(View.GONE);
                 webshow.setVisibility(View.VISIBLE);
                 layout_error.setVisibility(View.GONE);
+                cookieManager = CookieManager.getInstance();
+                cookieManager.setAcceptCookie(true);
+                cookies=cookieManager.getInstance().getCookie(url);
+                CookieSyncManager.createInstance(getBaseContext());
+                CookieSyncManager.getInstance().startSync();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_700));
                 super.onPageStarted(view, url, favicon);
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onPageFinished(WebView view, String url) {
                 view.loadUrl("javascript:(function() { " +
                         "document.getElementsByTagName('footer')[0].style.display=\"none\"; " +
                         "})()");
+                Log.d(TAG, "onPageFinished: "+cookies);
+                CookieSyncManager.getInstance().sync();
                 super.onPageFinished(view, url);
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub
-                if (url.startsWith("https://gharkidukaan.store/") || url.startsWith("https://m.gharkidukaan.store/")) {
+                transparent_layer.setVisibility(View.VISIBLE);
+                clciked_url.setVisibility(View.VISIBLE);
+                if (url.startsWith("http://gharkidukaan.store/") || url.startsWith("http://m.gharkidukaan.store/") || url.startsWith("https://gharkidukaan.store/") || url.startsWith("https://m.gharkidukaan.store/")) {
                     view.loadUrl(url);
                     Log.d("url", url);
                 } else {
                     Log.d("url", url);
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     view.getContext().startActivity(i);
+                    imageView.setVisibility(View.GONE);
                 }
-
                 return true;
             }
-        }
 
-    }
+
+}
+
+}
 
 
 
