@@ -25,4 +25,5 @@
     <string name="Orders_long_label">Orders</string>
     <string name="Orders_short_label">Orders</string>
     <string name="Orders_disabled_message">Orders</string>
+    <string name="image_chooser">Select File</string>
 </resources>

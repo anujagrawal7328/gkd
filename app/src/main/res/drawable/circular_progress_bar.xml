@@ -7,8 +7,8 @@
         android:color="@color/purple_200"/>
 
     <size
-        android:width="120dp"
-        android:height="120dp"/>
+        android:width="56dp"
+        android:height="56dp"/>
     </shape>
     </item>
     <item android:id="@android:id/progress">

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/white"
     android:id="@+id/layoutMain"
     tools:context="store.gharkidukaan.ghar_ki_dukaan.MainActivity"
   >
@@ -15,59 +15,114 @@
         android:layout_height="match_parent"
         android:visibility="gone">
     </WebView>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progressbar_layer"
+        android:visibility="gone"
+    >
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_white"
         android:id="@+id/transparent_layer"
-        android:visibility="gone"/>
-    <ProgressBar
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/clicked_url"
-        android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/purple_200"
-        android:padding="5dp"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
-    <ImageView
-        android:id="@+id/SplashScreenImage"
-        android:layout_width="309dp"
-        android:layout_height="241dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
         />
-</FrameLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
+   <androidx.cardview.widget.CardView
+       android:layout_width="110dp"
+       android:layout_height="120dp"
+       android:layout_gravity="center"
+       app:cardCornerRadius="15dp">
+       <ProgressBar
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:layout_gravity="center"
+           android:layout_marginBottom="5dp"
+           android:indeterminate="true"
+           android:indeterminateTintMode="src_atop"
+           android:indeterminateTint="@color/purple_200"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="bottom|center"
+           android:layout_marginBottom="10dp"
+           android:text="please wait..."
+           android:textSize="15sp"
+           android:textStyle="bold"/>
+
+   </androidx.cardview.widget.CardView>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/SplashScreen"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="35dp"
+            />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/info_layout_main"
         >
-<ImageView
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-    android:layout_marginBottom="20dp"
-    android:id="@+id/imageView"
-    android:layout_centerHorizontal="true"
-    android:visibility="gone"
-    />
+
+            <ProgressBar
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView"
+                android:indeterminateTint="@color/purple_200"
+                android:layout_marginBottom="35dp"
+                android:layout_gravity="bottom|center"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginBottom="35dp"
+                android:id="@+id/info_layout_images"
+                >
+
+                <ImageView
+                    android:id="@+id/info_Image1"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginRight="35dp"
+                    android:padding="3dp"
+                    />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="70dp"
+                    android:background="#D3D3D3"
+                    android:layout_gravity="center_horizontal"/>
+                <ImageView
+                    android:id="@+id/info_Image2"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginLeft="35dp"
+                    android:padding="3dp"
+                    />
+            </LinearLayout>
+
+
+
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:orientation="horizontal"
-                android:background="#AE000000"
-                android:id="@+id/layout_msg"
-                android:gravity="center_horizontal"
-                android:layout_below="@+id/imageView"
-                android:visibility="gone">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+                android:layout_gravity="bottom"
+            android:background="#D0000000"
+            android:id="@+id/layout_msg"
+            android:visibility="gone">
 
-                <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Your Internet Is Slow, Please Wait!"
@@ -76,22 +131,22 @@
                 android:textSize="15dp"
                 android:layout_weight="3"
                 android:layout_marginTop="13dp"
-               />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/close_msg"
-                    android:text="Okay"
-                    android:textColor="@color/purple_200"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="13dp"
-                   />
-            </LinearLayout>
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/close_msg"
+                android:text="Okay"
+                android:textColor="@color/purple_200"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
+                />
+        </LinearLayout>
 
-    </RelativeLayout>
+    </FrameLayout>
 
        <RelativeLayout
            android:layout_width="match_parent"
